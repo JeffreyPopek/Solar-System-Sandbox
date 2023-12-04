@@ -9,7 +9,7 @@ public class AttractorForce : ForceGenerator
     {
         Vector2 distance = this.transform.position - targetPos;
         
-        Vector2 force = (power / distance.sqrMagnitude) * -distance.normalized;
+        Vector2 force = (power / distance.magnitude) * -distance.normalized;
         
         obj.AddForce(force);
     }

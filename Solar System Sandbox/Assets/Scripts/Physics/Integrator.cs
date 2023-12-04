@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Integrator
+public static class Integrator
 {
     public static void Integrate(CelestialBody obj, float dt)
     {

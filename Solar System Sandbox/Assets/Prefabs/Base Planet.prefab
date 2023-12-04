@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3576699847347379732}
   - component: {fileID: 6128223877100437418}
   - component: {fileID: 7263088991616838471}
+  - component: {fileID: 1824239472462813689}
   m_Layer: 0
   m_Name: Base Planet
   m_TagString: Untagged
@@ -97,8 +98,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042d2c4e2b7952345b5a0e35183a4349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: {x: 0, y: 0}
-  damping: 0
+  velocity: {x: 0, y: 5}
+  damping: 1
   acceleration: {x: 0, y: 0}
   gravity: {x: 0, y: 0}
-  inverseMass: 0
+  inverseMass: 1
+--- !u!114 &1824239472462813689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661254339049959719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e3e6b1ab69e64b4f8be9b778d0c8eac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPos: {x: 0, y: 0, z: 0}
+  power: 20

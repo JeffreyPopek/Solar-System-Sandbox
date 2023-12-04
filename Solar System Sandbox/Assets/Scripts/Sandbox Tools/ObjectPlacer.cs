@@ -10,10 +10,7 @@ public class ObjectPlacer : MonoBehaviour
     [SerializeField] private int index = 0;
 
     private Vector2 mousePos;
-
     private Vector2 worldPos;
-    // Start is called before the first frame update
-    
 
     private void Update()
     {

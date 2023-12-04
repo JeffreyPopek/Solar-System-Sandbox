@@ -10,6 +10,17 @@ public class CelestialBody : MonoBehaviour
     public float inverseMass;
     public Vector2 accumulatedForces { get; private set; }
 
+    private GameObject sun;
+    private AttractorForce sunGravity;
+
+    private void Start()
+    {
+        sun = GameObject.FindWithTag("Sun");
+        sunGravity = GetComponent<AttractorForce>();
+
+        sunGravity.targetPos = sun.transform.position;
+    }
+
     private void Update()
     {
         
