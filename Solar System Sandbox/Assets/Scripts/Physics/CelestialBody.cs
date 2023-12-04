@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CelestialBody : MonoBehaviour
@@ -8,8 +9,12 @@ public class CelestialBody : MonoBehaviour
     public Vector2 gravity;
     public float inverseMass;
     public Vector2 accumulatedForces { get; private set; }
-    
-    
+
+    private void Update()
+    {
+        
+    }
+
     public void FixedUpdate()
     {
         DoFixedUpdate(Time.fixedDeltaTime);
