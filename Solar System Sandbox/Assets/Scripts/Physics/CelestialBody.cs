@@ -13,6 +13,8 @@ public class CelestialBody : MonoBehaviour
     private GameObject sun;
     private AttractorForce sunGravity;
 
+    private Vector2 currentPosition;
+
     private void Start()
     {
         sun = GameObject.FindWithTag("Sun");
@@ -20,24 +22,25 @@ public class CelestialBody : MonoBehaviour
 
         sunGravity.targetPos = sun.transform.position;
     }
-
-    private void Update()
-    {
-        
-    }
+    
 
     public void FixedUpdate()
     {
         DoFixedUpdate(Time.fixedDeltaTime);
+
+        currentPosition = this.transform.position;
     }
 
     public void DoFixedUpdate(float dt)
     {
-        // Apply force from each attached ForceGenerator component
-        System.Array.ForEach(GetComponents<ForceGenerator>(), generator => { if (generator.enabled) generator.UpdateForce(this); });
+        if (!Universe.instance.gamePaused)
+        {
+            // Apply force from each attached ForceGenerator component
+            System.Array.ForEach(GetComponents<ForceGenerator>(), generator => { if (generator.enabled) generator.UpdateForce(this); });
 
-        Integrator.Integrate(this, dt);
-        ClearForces();
+            Integrator.Integrate(this, dt);
+            ClearForces();  
+        }
     }
 
     public void ClearForces()
@@ -48,5 +51,21 @@ public class CelestialBody : MonoBehaviour
     public void AddForce(Vector2 force)
     {
         accumulatedForces += force;
+    }
+
+
+    public bool CheckIfMouseOnPos()
+    {
+        Vector2 temp = InputManager.instance.GetWorldPos();
+
+        if (temp == currentPosition)
+        {
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
     }
 }

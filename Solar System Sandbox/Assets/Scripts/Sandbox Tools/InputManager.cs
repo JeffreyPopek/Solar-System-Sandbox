@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class ObjectPlacer : MonoBehaviour
+public class InputManager : MonoBehaviour
 {
+    public static InputManager instance;
     [SerializeField] private GameObject[] objects;
     [SerializeField] private int index = 0;
 
@@ -16,11 +17,17 @@ public class ObjectPlacer : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            mousePos = Input.mousePosition;
-            
             CreateSelectedObject(index);
             
             Debug.Log("Placing Object at " + worldPos);
+        }
+        
+        if (Input.GetMouseButtonDown(1))
+        {
+            Universe.instance.PauseGame();
+            
+            
+            Debug.Log("Pausing/Unpausing Game!");
         }
         
         if (Input.GetKeyDown(KeyCode.Q))
@@ -32,11 +39,26 @@ public class ObjectPlacer : MonoBehaviour
         {
             //
         }
+        
+        
     }
 
     private void CreateSelectedObject(int index)
     {
-        worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        GetMousePos();
         Instantiate(objects[index], worldPos, quaternion.identity);
     }
+
+
+    private void GetMousePos()
+    {
+        mousePos = Input.mousePosition;
+        worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+    }
+
+    public Vector2 GetWorldPos()
+    {
+        return worldPos;
+    }
+    
 }
