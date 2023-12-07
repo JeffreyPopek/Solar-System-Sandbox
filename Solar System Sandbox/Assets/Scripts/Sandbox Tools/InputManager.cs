@@ -12,6 +12,10 @@ public class InputManager : MonoBehaviour
 
     private Vector2 mousePos;
     private Vector2 worldPos;
+    
+    // Planets
+    private CelestialBody[] planets;
+    private int listIndex = 0;
 
     private void Update()
     {
@@ -46,7 +50,9 @@ public class InputManager : MonoBehaviour
     private void CreateSelectedObject(int index)
     {
         GetMousePos();
-        Instantiate(objects[index], worldPos, quaternion.identity);
+        GameObject temp = Instantiate(objects[index], worldPos, quaternion.identity);
+        //planets[listIndex] = temp.GetComponent<CelestialBody>();
+        //listIndex++;
     }
 
 
