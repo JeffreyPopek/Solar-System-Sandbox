@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6128223877100437418}
   - component: {fileID: 7263088991616838471}
   - component: {fileID: 1824239472462813689}
-  - component: {fileID: 5851095301055006995}
+  - component: {fileID: -3402537584010393428}
   m_Layer: 0
   m_Name: Base Planet
   m_TagString: Untagged
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
   power: 20
---- !u!114 &5851095301055006995
+--- !u!114 &-3402537584010393428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
