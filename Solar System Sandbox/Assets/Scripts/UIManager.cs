@@ -10,8 +10,6 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
     
     [SerializeField] private GameObject UIHolder;
-    [SerializeField] private Vector2 UIOut;
-    [SerializeField] private Vector2 UIIn;
 
     private bool uiShowing = false;
     
@@ -34,9 +32,6 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         UIHolder.SetActive(false);
-
-        //CelestialBodyName;
-
     }
     
 
@@ -50,16 +45,22 @@ public class UIManager : MonoBehaviour
 
     public void ShowUI()
     {
+        UpdateInfo();
+        
         if (uiShowing)
         {
             UIHolder.SetActive(false);
             uiShowing = false;
-            //UIHolder.transform.position = Vector2.Lerp(UIIn, UIOut, 1.0f);
         }
         else
         {
             UIHolder.SetActive(true);
             uiShowing = true;
         }
+    }
+
+    private void UpdateInfo()
+    {
+        //CelestialBodyName.text = InputManager.instance.GetCelestialBodyindex();
     }
 }

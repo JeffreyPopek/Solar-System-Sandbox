@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour
     public static InputManager instance;
     [SerializeField] private GameObject[] objects;
     [SerializeField] private int index = 0;
+
+    private int planetIndex;
     
     private Vector2 mousePos;
     private Vector2 worldPos;
@@ -32,7 +34,7 @@ public class InputManager : MonoBehaviour
         
         if (Input.GetMouseButtonDown(1))
         {
-            int planetIndex = 0;
+            planetIndex = 0;
             bool planetFound = false;
 
             foreach (CelestialBody planet in planets)
@@ -101,4 +103,9 @@ public class InputManager : MonoBehaviour
         return planetSelected;
     }
     
+    public string GetCelestialBodyindex()
+    {
+        return planetIndex.ToString();
+    }
+
 }
