@@ -25,6 +25,11 @@ public class Universe : MonoBehaviour
     
     public void PauseGame()
     {
-        gamePaused = !gamePaused;
+        gamePaused = true;
+    }
+    
+    public void UnpauseGame()
+    {
+        gamePaused = false;
     }
 }

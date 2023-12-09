@@ -11,15 +11,15 @@ public class InputManager : MonoBehaviour
     public static InputManager instance;
     [SerializeField] private GameObject[] objects;
     [SerializeField] private int index = 0;
-
-    [SerializeField] private TextMeshProUGUI indexDisplay;
-
+    
     private Vector2 mousePos;
     private Vector2 worldPos;
 
     // Planets
     public List<CelestialBody> planets;
     private int selectedPlanet;
+
+    private bool planetSelected = false;
 
     private void Update()
     {
@@ -35,55 +35,53 @@ public class InputManager : MonoBehaviour
             int planetIndex = 0;
             bool planetFound = false;
 
-            // If simulation is already paused, search for a planet at mouse position
-            if (Universe.instance.gamePaused)
+            foreach (CelestialBody planet in planets)
             {
-                foreach (CelestialBody planet in planets)
+                float distance = (planet.transform.position - GetWorldPos()).magnitude;
+
+                Debug.Log(distance);
+
+                if (distance <= planet.GetComponent<Sphere>().Radius)
                 {
-                    float distance = (planet.transform.position - GetWorldPos()).magnitude;
+                    selectedPlanet = planetIndex;
+                    planetFound = true;
 
-                    Debug.Log(distance);
+                    // If a planet is found, start editing that planet
+                    //indexDisplay.text = "Editing: " + planetIndex.ToString();
+                    UIManager.instance.ShowUI();
 
-                    if (distance <= planet.GetComponent<Sphere>().Radius)
-                    {
-                        selectedPlanet = planetIndex;
-                        planetFound = true;
-
-                        // If a planet is found, start editing that planet
-                        indexDisplay.text = "Editing: " + planetIndex.ToString();
-                    }
-
-                    planetIndex++;
+                    planetSelected = true;
                 }
 
-                // If a planet is not found, unpause the simulation
-                if (!planetFound)
-                {
-                    indexDisplay.text = " ";
-
-                    Universe.instance.PauseGame();
-                    Debug.Log("Unpausing Game!");
-                }
+                planetIndex++;
             }
-
-            // If simulation is running, pause it
-            else
+            
+            // If a planet is found, pause the simulation
+            if (planetFound)
             {
                 Universe.instance.PauseGame();
                 Debug.Log("Pausing Game!");
             }
+            else
+            {
+                //indexDisplay.text = " ";
+                planetSelected = false;
+            }
         }
         
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            //
-        }
-        
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //
+            if (Universe.instance.gamePaused)
+            {
+                Universe.instance.UnpauseGame();
+            }
+            else
+            {
+                Universe.instance.PauseGame();
+            }
         }
     }
+
 
     private void CreateSelectedObject(int index)
     {
@@ -96,6 +94,11 @@ public class InputManager : MonoBehaviour
         mousePos = Input.mousePosition;
         worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         return worldPos;
+    }
+
+    public bool GetPlanetSelectedStatus()
+    {
+        return planetSelected;
     }
     
 }
