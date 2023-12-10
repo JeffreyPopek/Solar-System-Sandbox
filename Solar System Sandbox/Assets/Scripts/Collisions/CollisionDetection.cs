@@ -39,11 +39,11 @@ public static class CollisionDetection
         s2.velocity -= deltaVel * d2pct * normal;
     }
 
-    public static void GetPenetration(Sun sun, Sphere sphere, out float penetration)
+    public static void GetPenetration(Sphere s1, Sphere s2, out float penetration)
     {
-        Vector2 midline = sun.position - sphere.position;
+        Vector2 midline = s1.position - s2.position;
         float size = midline.magnitude;
 
-        penetration = sun.Radius + sphere.Radius - size;
+        penetration = s1.Radius + s2.Radius - size;
     }
 }

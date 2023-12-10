@@ -3,37 +3,45 @@ using UnityEngine;
 
 public class CelestialBody : MonoBehaviour
 {
+    public int planetIndex;
+
+    public bool isStatic = false;
     public Vector2 velocity;
     public float damping;
     public Vector2 acceleration;
-    public Vector2 gravity;
     public float inverseMass;
-    public Vector2 accumulatedForces { get; private set; }
 
-    private GameObject sun;
-    private AttractorForce sunGravity;
+    public Vector2 accumulatedForces { get; private set; }
 
     private Vector2 currentPosition;
 
-    private void Start()
+    private void Awake()
     {
-        sun = GameObject.FindWithTag("Sun");
-        sunGravity = GetComponent<AttractorForce>();
+        // find direction based on position
+        Vector2 dir = new Vector2(-this.transform.position.y, this.transform.position.x).normalized;
 
-        sunGravity.targetPos = sun.transform.position;
+        // find magnitude based on distance from sun
+        float dist = this.transform.position.magnitude;
+        float invMass = FindObjectOfType<InputManager>().planets[0].inverseMass;
+        float gravConst = 10.0f;
+        float mag = (float)Math.Sqrt((gravConst / invMass) / dist);
+
+        // set starting velocity by multiplying the two
+        velocity = dir * mag;
     }
-    
 
     public void FixedUpdate()
     {
         DoFixedUpdate(Time.fixedDeltaTime);
 
         currentPosition = this.transform.position;
+
+        CheckIfOutOfBounds();
     }
 
     public void DoFixedUpdate(float dt)
     {
-        if (!Universe.instance.gamePaused)
+        if (!Universe.instance.gamePaused && !isStatic)
         {
             // Apply force from each attached ForceGenerator component
             System.Array.ForEach(GetComponents<ForceGenerator>(), generator => { if (generator.enabled) generator.UpdateForce(this); });
@@ -61,11 +69,19 @@ public class CelestialBody : MonoBehaviour
         if (temp == currentPosition)
         {
             return true;
-
         }
         else
         {
             return false;
+        }
+    }
+
+    public void CheckIfOutOfBounds()
+    {
+        if (transform.position.magnitude >= 200.0f)
+        {
+            FindObjectOfType<InputManager>().planets.Remove(this);
+            Destroy(gameObject);
         }
     }
 }

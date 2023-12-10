@@ -8,7 +8,6 @@ public class Universe : MonoBehaviour
 
     [HideInInspector] public bool gamePaused;
 
-
     private void Awake()
     {
         if (instance != null)

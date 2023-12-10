@@ -19,7 +19,7 @@ public class InputManager : MonoBehaviour
 
     // Planets
     public List<CelestialBody> planets;
-    private int selectedPlanet;
+    private int selectedPlanet = -1;
 
     private bool planetSelected = false;
 
@@ -82,13 +82,20 @@ public class InputManager : MonoBehaviour
                 Universe.instance.PauseGame();
             }
         }
-    }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            index++;
+            if (index >= objects.Length)
+                index = 0;
+        }
+    }
 
     private void CreateSelectedObject(int index)
     {
         GameObject temp = Instantiate(objects[index], GetWorldPos(), quaternion.identity);
         planets.Add(temp.GetComponent<CelestialBody>());
+        temp.GetComponent<CelestialBody>().planetIndex = planets.Count - 1;
     }
 
     public Vector3 GetWorldPos()
