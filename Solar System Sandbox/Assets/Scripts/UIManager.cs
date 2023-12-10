@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject UIHolder;
 
     private bool uiShowing = false;
-    
-    
+
+
     //menu
     [SerializeField] private TextMeshProUGUI CelestialBodyName;
+    [SerializeField] private TextMeshProUGUI size;
 
     
 
@@ -32,6 +34,9 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         UIHolder.SetActive(false);
+
+        CelestialBodyName.text = "";
+        size.text = "";
     }
     
 
@@ -39,6 +44,7 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            // Error when no planets is selected but it doesn't break so its fine ig
             ShowUI();
         }
     }
@@ -46,7 +52,7 @@ public class UIManager : MonoBehaviour
     public void ShowUI()
     {
         UpdateInfo();
-        
+
         if (uiShowing)
         {
             UIHolder.SetActive(false);
@@ -59,8 +65,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void UpdateInfo()
+    public bool IsUIShowing()
     {
-        //CelestialBodyName.text = InputManager.instance.GetCelestialBodyindex();
+        return uiShowing;
     }
+    
+    public void UpdateInfo()
+    {
+        CelestialBodyName.text = InputManager.instance.GetPlanetName();
+        size.text = InputManager.instance.GetPlanetSize().ToString();
+    }
+    
+    
 }

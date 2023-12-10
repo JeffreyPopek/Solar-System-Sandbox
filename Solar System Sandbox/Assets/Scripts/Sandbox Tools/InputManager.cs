@@ -5,14 +5,19 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
+    
     [SerializeField] private GameObject[] objects;
+
+    private GameObject selectedPlanetGameObject;
     [SerializeField] private int index = 0;
 
     private int planetIndex;
+    private int numPlanets = 0;
     
     private Vector2 mousePos;
     private Vector2 worldPos;
@@ -23,10 +28,31 @@ public class InputManager : MonoBehaviour
 
     private bool planetSelected = false;
 
+
+    private Vector3 TempVector = new Vector3(1, 1, 1);
+    
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            // Fixes placing an object when clicking on the UI
+            if(EventSystem.current.IsPointerOverGameObject())
+                return;
+            
+            
             CreateSelectedObject(index);
             
             Debug.Log("Placing Object at " + worldPos);
@@ -49,8 +75,15 @@ public class InputManager : MonoBehaviour
                     planetFound = true;
 
                     // If a planet is found, start editing that planet
-                    //indexDisplay.text = "Editing: " + planetIndex.ToString();
-                    UIManager.instance.ShowUI();
+                    // If UI isn't already showing then show it, if it is then just update the info on the menu
+                    if (UIManager.instance.IsUIShowing())
+                    {
+                        UIManager.instance.UpdateInfo();
+                    }
+                    else
+                    {
+                        UIManager.instance.ShowUI();
+                    }
 
                     planetSelected = true;
                 }
@@ -93,7 +126,9 @@ public class InputManager : MonoBehaviour
 
     private void CreateSelectedObject(int index)
     {
+        numPlanets++;
         GameObject temp = Instantiate(objects[index], GetWorldPos(), quaternion.identity);
+        temp.name = "Planet " + numPlanets;
         planets.Add(temp.GetComponent<CelestialBody>());
         temp.GetComponent<CelestialBody>().planetIndex = planets.Count - 1;
     }
@@ -110,9 +145,58 @@ public class InputManager : MonoBehaviour
         return planetSelected;
     }
     
-    public string GetCelestialBodyindex()
+    public string GetPlanetName()
     {
-        return planetIndex.ToString();
+        return planets[selectedPlanet].name;
+    }
+
+    public float GetPlanetSize()
+    {
+        return planets[selectedPlanet].GetComponent<Sphere>().Radius;
+    }
+
+    public void RemoveCelestialBody()
+    {
+        if (UIManager.instance.IsUIShowing())
+        {
+            UIManager.instance.ShowUI();
+        }
+        
+        Debug.Log("Selected Planet" + selectedPlanet);
+        planets[selectedPlanet].GetComponent<CelestialBody>().DestroyObject();
+        planets.RemoveAt(selectedPlanet);
+
+        selectedPlanet = -1;
+    }
+
+    public void IncreasePlanetSize()
+    {
+        Debug.Log("Increasing Planet Size");
+        if (planets[selectedPlanet].GetComponent<Sphere>().Radius == 5.0f)
+            return;
+        
+        planets[selectedPlanet].transform.localScale += TempVector;
+        planets[selectedPlanet].GetComponent<Sphere>().Radius += 1;
+        
+        UIManager.instance.UpdateInfo();
+    }
+
+    public void DecreasePlanetSize()
+    {
+        Debug.Log("Decreasing Planet Size");
+
+        if (planets[selectedPlanet].GetComponent<Sphere>().Radius == 0.5f)
+            return;
+        
+        planets[selectedPlanet].transform.localScale -= TempVector;
+        planets[selectedPlanet].GetComponent<Sphere>().Radius -= 1;
+        
+        UIManager.instance.UpdateInfo();
+    }
+
+    public void test()
+    {
+        Debug.Log("test");
     }
 
 }

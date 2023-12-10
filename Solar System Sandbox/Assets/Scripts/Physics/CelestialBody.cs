@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CelestialBody : MonoBehaviour
@@ -83,5 +84,10 @@ public class CelestialBody : MonoBehaviour
             FindObjectOfType<InputManager>().planets.Remove(this);
             Destroy(gameObject);
         }
+    }
+
+    public void DestroyObject()
+    {
+        Destroy(this.GameObject());
     }
 }
