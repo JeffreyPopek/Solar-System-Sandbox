@@ -18,7 +18,11 @@ public class UIManager : MonoBehaviour
     //menu
     [SerializeField] private TextMeshProUGUI CelestialBodyName;
     [SerializeField] private TextMeshProUGUI size;
+    [SerializeField] private TextMeshProUGUI velocity;
+    [SerializeField] private TextMeshProUGUI position;
 
+
+    private Vector2 currPosition;
     
 
 
@@ -37,6 +41,8 @@ public class UIManager : MonoBehaviour
 
         CelestialBodyName.text = "";
         size.text = "";
+        velocity.text = "";
+        position.text = "";
     }
     
 
@@ -46,6 +52,11 @@ public class UIManager : MonoBehaviour
         {
             // Error when no planets is selected but it doesn't break so its fine ig
             ShowUI();
+        }
+
+        if (uiShowing)
+        {
+            UpdateInfo();
         }
     }
 
@@ -74,6 +85,22 @@ public class UIManager : MonoBehaviour
     {
         CelestialBodyName.text = InputManager.instance.GetPlanetName();
         size.text = InputManager.instance.GetPlanetSize().ToString();
+        if (InputManager.instance.GetPlanet().GetComponent<Sphere>().Radius == 1.0f || InputManager.instance.GetPlanet().GetComponent<Sphere>().Radius == 5.0f)
+        {
+            size.color = Color.red;
+        }
+        else
+        {
+            size.color = Color.white;
+        }
+
+        velocity.text = InputManager.instance.GetPlanet().GetComponent<CelestialBody>().velocity.ToString();
+        currPosition = InputManager.instance.GetPlanet().transform.position;
+        currPosition.x = (int)currPosition.x;
+        currPosition.y = (int)currPosition.y;
+        position.text = currPosition.ToString();
+
+
     }
     
     

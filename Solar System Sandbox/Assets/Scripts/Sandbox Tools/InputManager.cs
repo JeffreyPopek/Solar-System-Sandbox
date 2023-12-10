@@ -31,6 +31,15 @@ public class InputManager : MonoBehaviour
 
     private Vector3 TempVector = new Vector3(1, 1, 1);
     
+    
+    //Pause
+    [SerializeField] private GameObject pauseSymbol;
+    [SerializeField] private GameObject unpauseSymbol;
+
+    private bool CRRunning = false;
+
+    
+    
     private void Awake()
     {
         if (instance != null)
@@ -41,6 +50,9 @@ public class InputManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+        
+        pauseSymbol.SetActive(false);
+        unpauseSymbol.SetActive(false);
     }
     
 
@@ -106,6 +118,7 @@ public class InputManager : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("Pausing");
             if (Universe.instance.gamePaused)
             {
                 Universe.instance.UnpauseGame();
@@ -114,6 +127,8 @@ public class InputManager : MonoBehaviour
             {
                 Universe.instance.PauseGame();
             }
+
+            PauseLogic();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -143,6 +158,11 @@ public class InputManager : MonoBehaviour
     public bool GetPlanetSelectedStatus()
     {
         return planetSelected;
+    }
+
+    public CelestialBody GetPlanet()
+    {
+        return planets[selectedPlanet];
     }
     
     public string GetPlanetName()
@@ -185,7 +205,7 @@ public class InputManager : MonoBehaviour
     {
         Debug.Log("Decreasing Planet Size");
 
-        if (planets[selectedPlanet].GetComponent<Sphere>().Radius == 0.5f)
+        if (planets[selectedPlanet].GetComponent<Sphere>().Radius == 1.0f)
             return;
         
         planets[selectedPlanet].transform.localScale -= TempVector;
@@ -194,9 +214,46 @@ public class InputManager : MonoBehaviour
         UIManager.instance.UpdateInfo();
     }
 
+    public void SizeLogic()
+    {
+        
+    }
+
     public void test()
     {
         Debug.Log("test");
     }
 
+    private void PauseLogic()
+    {
+        if (Universe.instance.gamePaused)
+        {
+            pauseSymbol.SetActive(true);
+            unpauseSymbol.SetActive(false);
+        }
+        else if(!Universe.instance.gamePaused)
+        {
+            pauseSymbol.SetActive(false);
+            unpauseSymbol.SetActive(true);
+        }
+
+        if (CRRunning)
+        {
+            StopCoroutine(PauseTimer());
+            CRRunning = false;
+        }
+        
+        StartCoroutine(PauseTimer());
+    }
+
+
+    private IEnumerator PauseTimer()
+    {
+        CRRunning = true;
+        
+        yield return new WaitForSeconds(2);
+        
+        pauseSymbol.SetActive(false);
+        unpauseSymbol.SetActive(false);
+    }
 }
