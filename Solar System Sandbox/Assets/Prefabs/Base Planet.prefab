@@ -104,7 +104,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0}
   damping: 1
   acceleration: {x: 0, y: 0}
-  inverseMass: 0.1
+  inverseMass: 1
 --- !u!114 &2115371950282486923
 MonoBehaviour:
   m_ObjectHideFlags: 0

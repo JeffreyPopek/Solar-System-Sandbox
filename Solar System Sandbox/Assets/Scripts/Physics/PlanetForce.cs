@@ -15,8 +15,8 @@ public class PlanetForce : ForceGenerator
             if (other != obj)
             {
                 float sqrDist = (other.transform.position - this.transform.position).sqrMagnitude;
-                Vector3 forceDir = (other.transform.position - this.transform.position).normalized;
-                Vector3 force = forceDir * power / obj.inverseMass / other.inverseMass / sqrDist;
+                Vector3 dir = (other.transform.position - this.transform.position).normalized;
+                Vector3 force = dir * power / obj.inverseMass / other.inverseMass / sqrDist;
 
                 obj.AddForce(force);
             }
