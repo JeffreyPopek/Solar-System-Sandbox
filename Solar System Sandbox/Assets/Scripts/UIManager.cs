@@ -76,6 +76,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void CloseUI()
+    {
+        UIHolder.SetActive(false);
+        uiShowing = false;
+    }
+
     public bool IsUIShowing()
     {
         return uiShowing;

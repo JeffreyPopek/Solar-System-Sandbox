@@ -89,5 +89,6 @@ public class CelestialBody : MonoBehaviour
     public void DestroyObject()
     {
         Destroy(this.GameObject());
+        UIManager.instance.CloseUI();
     }
 }

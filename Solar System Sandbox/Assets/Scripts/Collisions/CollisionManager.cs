@@ -20,12 +20,14 @@ public class CollisionManager : MonoBehaviour
                     {
                         FindObjectOfType<InputManager>().planets.Remove(spheres[j].gameObject.GetComponent<CelestialBody>());
                         Destroy(spheres[j].gameObject);
+                        UIManager.instance.CloseUI();
                     }
 
                     if (!spheres[i].isSun)
                     {
                         FindObjectOfType<InputManager>().planets.Remove(spheres[i].gameObject.GetComponent<CelestialBody>());
                         Destroy(spheres[i].gameObject);
+                        UIManager.instance.CloseUI();
                     }
 
                     return;

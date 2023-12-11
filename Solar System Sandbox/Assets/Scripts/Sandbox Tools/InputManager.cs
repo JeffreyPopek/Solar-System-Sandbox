@@ -129,13 +129,13 @@ public class InputManager : MonoBehaviour
 
             PauseLogic();
         }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            index++;
-            if (index >= objects.Length)
-                index = 0;
-        }
+        //
+        // if (Input.GetKeyDown(KeyCode.E))
+        // {
+        //     index++;
+        //     if (index >= objects.Length)
+        //         index = 0;
+        // }
     }
 
     private void CreateSelectedObject(int index)
@@ -161,16 +161,32 @@ public class InputManager : MonoBehaviour
 
     public CelestialBody GetPlanet()
     {
+        if (selectedPlanet < 0)
+        {
+            CelestialBody temp = new CelestialBody();
+            return temp;
+        }
         return planets[selectedPlanet];
     }
     
     public string GetPlanetName()
     {
+        if (selectedPlanet < 0)
+        {
+            string temp = "";
+            return temp;
+        }
         return planets[selectedPlanet].name;
+
     }
 
     public float GetPlanetSize()
     {
+        if (selectedPlanet < 0)
+        {
+            return 0;
+        }
+        
         return planets[selectedPlanet].GetComponent<Sphere>().Radius;
     }
 
@@ -216,16 +232,6 @@ public class InputManager : MonoBehaviour
         planets[selectedPlanet].inverseMass *= 2.0f;
 
         UIManager.instance.UpdateInfo();
-    }
-
-    public void SizeLogic()
-    {
-        
-    }
-
-    public void test()
-    {
-        Debug.Log("test");
     }
 
     private void PauseLogic()
