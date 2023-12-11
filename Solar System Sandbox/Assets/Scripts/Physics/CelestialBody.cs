@@ -24,7 +24,7 @@ public class CelestialBody : MonoBehaviour
         // find magnitude based on distance from sun
         float dist = this.transform.position.magnitude;
         float invMass = FindObjectOfType<InputManager>().planets[0].inverseMass;
-        float gravConst = 10.0f;
+        float gravConst = 10f;
         float mag = (float)Math.Sqrt((gravConst / invMass) / dist);
 
         // set starting velocity by multiplying the two

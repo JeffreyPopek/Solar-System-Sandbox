@@ -101,10 +101,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetIndex: 0
   isStatic: 0
-  velocity: {x: 0, y: 15}
-  damping: 0
+  velocity: {x: 0, y: 0}
+  damping: 1
   acceleration: {x: 0, y: 0}
-  inverseMass: 0.03
+  inverseMass: 0.1
 --- !u!114 &2115371950282486923
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour
     private bool planetSelected = false;
 
 
-    private Vector3 TempVector = new Vector3(1, 1, 1);
+    private Vector3 TempVector = new Vector3(2, 2, 2);
     
     
     //Pause
@@ -81,7 +81,7 @@ public class InputManager : MonoBehaviour
 
                 Debug.Log(distance);
 
-                if (distance <= planet.GetComponent<Sphere>().Radius)
+                if (distance <= 4 * planet.GetComponent<Sphere>().Radius)
                 {
                     selectedPlanet = planetIndex;
                     planetFound = true;
@@ -111,7 +111,6 @@ public class InputManager : MonoBehaviour
             }
             else
             {
-                //indexDisplay.text = " ";
                 planetSelected = false;
             }
         }
@@ -182,11 +181,14 @@ public class InputManager : MonoBehaviour
             UIManager.instance.ShowUI();
         }
         
-        Debug.Log("Selected Planet" + selectedPlanet);
-        planets[selectedPlanet].GetComponent<CelestialBody>().DestroyObject();
-        planets.RemoveAt(selectedPlanet);
+        if (!planets[selectedPlanet].gameObject.CompareTag("Sun"))
+        {
+            Debug.Log("Selected Planet" + selectedPlanet);
+            planets[selectedPlanet].GetComponent<CelestialBody>().DestroyObject();
+            planets.RemoveAt(selectedPlanet);
 
-        selectedPlanet = -1;
+            selectedPlanet = -1;
+        }
     }
 
     public void IncreasePlanetSize()
@@ -197,6 +199,7 @@ public class InputManager : MonoBehaviour
         
         planets[selectedPlanet].transform.localScale += TempVector;
         planets[selectedPlanet].GetComponent<Sphere>().Radius += 1;
+        planets[selectedPlanet].inverseMass /= 2.0f;
         
         UIManager.instance.UpdateInfo();
     }
@@ -210,7 +213,8 @@ public class InputManager : MonoBehaviour
         
         planets[selectedPlanet].transform.localScale -= TempVector;
         planets[selectedPlanet].GetComponent<Sphere>().Radius -= 1;
-        
+        planets[selectedPlanet].inverseMass *= 2.0f;
+
         UIManager.instance.UpdateInfo();
     }
 
