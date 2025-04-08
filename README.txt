@@ -20,6 +20,6 @@ This project deepened my understanding of applying theoretical physics concepts 
 For more info on the development process, refer to the [full blog post](https://jeffreypopek.dev/blog-grav-sim.html).
 
 # Controls
-Left click to place a planet
-Right click on a planet to see its info
-Esc to open the last opened menu or close currently open menu
+- Left click to place a planet
+- Right click on a planet to see its info
+- Esc to open the last opened menu or close the currently open menu
